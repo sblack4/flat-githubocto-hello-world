@@ -26,7 +26,7 @@ jobs:
 
 
       - name: Get current time
-        uses: sblack4/get-current-time@master
+        uses: sblack4/get-current-time@dfd490e06a1737f06f0bea074e3e571b7d8e99e1
         id: current-time
         with:
           format: YYYY-MM-DD
