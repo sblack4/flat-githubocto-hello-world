@@ -27,7 +27,7 @@ jobs:
 
       - name: Get current time
         run: |
-          sda=`date -d %s $(( $(date +%s) - 86400 * 7 )) `
+          sda=`date -d "-7 days" +%Y-%m-%d`
           echo "::set-output name=DATE::$sda"
         id: current-time
 
