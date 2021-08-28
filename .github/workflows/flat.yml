@@ -28,7 +28,7 @@ jobs:
       - name: Get current time
         run: |
           date --help
-          sda=`date -jf %s $(( $(date +%s) - 86400 * 7 )) `
+          sda=`date -d %s $(( $(date +%s) - 86400 * 7 )) `
           echo "::set-output name=DATE::$sda"
         id: current-time
 
