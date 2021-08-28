@@ -16,12 +16,6 @@ jobs:
           deno-version: v1.x
       - name: Check out repo
         uses: actions/checkout@v2
-      - name: Get current time
-        uses: sblack4/get-current-time@master
-        id: current-time
-        with:
-          format: YYYY-MM-DD
-          days_offset: -7
       - name: Fetch data
         uses: githubocto/flat@v3
         with:
