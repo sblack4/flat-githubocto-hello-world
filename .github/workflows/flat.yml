@@ -30,7 +30,7 @@ jobs:
         id: current-time
         with:
           format: YYYY-MM-DD
-          days_offset: -7
+          days_offset: "-7"
 
       - name: Use current time
         env:
@@ -46,3 +46,4 @@ jobs:
         with:
           http_url: "https://api.open.fec.gov/v1/filings/?per_page=100&sort=-receipt_date&sort_nulls_last=false&sort_hide_null=false&page=1&sort_null_only=false&min_receipt_date=${{ steps.current-time.outputs.formattedTime }}&api_key=DEMO_KEY"
           downloaded_filename: data.json
+          postprocess: postprocess.js
