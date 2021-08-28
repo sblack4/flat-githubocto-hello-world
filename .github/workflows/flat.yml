@@ -26,24 +26,19 @@ jobs:
 
 
       - name: Get current time
-        uses: sblack4/get-current-time@dfd490e06a1737f06f0bea074e3e571b7d8e99e1
+        run: |
+          sda=`date -jf %s $(( $(date +%s) - 86400 * 7 )) `
+          echo "::set-output name=DATE::$sda"
         id: current-time
-        with:
-          format: YYYY-MM-DD
-          days_offset: "-7"
 
       - name: Use current time
         env:
-          TIME: "${{ steps.current-time.outputs.time }}"
-          R_TIME: "${{ steps.current-time.outputs.readableTime }}"
-          F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
-          YEAR: "${{ steps.current-time.outputs.year }}"
-          DAY: "${{ steps.current-time.outputs.day }}"
-        run: echo $TIME $R_TIME $F_TIME $YEAR $DAY
+          DAY: "${{ steps.current-time.outputs.DATE }}"
+        run: echo $DATE
 
       - name: Fetch data
         uses: githubocto/flat@v3
         with:
-          http_url: "https://api.open.fec.gov/v1/filings/?per_page=100&sort=-receipt_date&sort_nulls_last=false&sort_hide_null=false&page=1&sort_null_only=false&min_receipt_date=${{ steps.current-time.outputs.formattedTime }}&api_key=DEMO_KEY"
+          http_url: "https://api.open.fec.gov/v1/filings/?per_page=100&sort=-receipt_date&sort_nulls_last=false&sort_hide_null=false&page=1&sort_null_only=false&min_receipt_date=${{ steps.current-time.outputs.DATE }}&api_key=DEMO_KEY"
           downloaded_filename: data.json
           postprocess: postprocess.js
