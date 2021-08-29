@@ -25,17 +25,18 @@ jobs:
         uses: actions/checkout@v2
 
 
-      - name: Get current time
+      - name: Get date and path
         run: |
           sda=`date -d "-7 days" +%Y-%m-%d`
           echo "::set-output name=DATE::$sda"
           echo "::set-output name=URLPATH::https://api.open.fec.gov/v1/filings/?per_page=100&sort=-receipt_date&sort_nulls_last=false&sort_hide_null=false&sort_null_only=false&min_receipt_date=$sda&api_key=DEMO_KEY"
         id: current-time
 
-      - name: Use current time
+      - name: Display date and path
         env:
           DAY: "${{ steps.current-time.outputs.DATE }}"
-        run: echo $DATE
+          URLPATH: "${{ steps.current-time.outputs.URLPATH }}"
+        run: echo $DATE $URLPATH
 
       - name: Fetch data
         uses: githubocto/flat@v3
