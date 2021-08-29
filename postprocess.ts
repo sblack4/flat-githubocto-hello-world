@@ -1,6 +1,8 @@
 
 import { readJSON, readJSONFromURL, writeJSON } from 'https://deno.land/x/flat/mod.ts'
+import { format } from "https://deno.land/std@0.106.0/datetime/mod.ts";
 
+const today = format(new Date(), "yyyy-MM-dd");
 // The filename is the first invocation argument
 const filename = Deno.args[0] // Same name as downloaded_filename
 const data = await readJSON(filename)
@@ -12,7 +14,7 @@ const data = await readJSON(filename)
 // await writeJSON(newfile, data.results)
 const resultsLists = data.results
 
-const apiUrl = Deno.env.get("URLPATH")
+const apiUrl = `https://api.open.fec.gov/v1/filings/?per_page=100&sort=-receipt_date&sort_nulls_last=false&sort_hide_null=false&sort_null_only=false&min_receipt_date=${today}&api_key=DEMO_KEY`
 
 const pages = data.pagination.pages
 console.log(`${pages} pages`)
