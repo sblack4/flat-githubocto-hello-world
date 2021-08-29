@@ -29,6 +29,7 @@ jobs:
         run: |
           sda=`date -d "-7 days" +%Y-%m-%d`
           echo "::set-output name=DATE::$sda"
+          echo "::set-output name=URLPATH::https://api.open.fec.gov/v1/filings/?per_page=100&sort=-receipt_date&sort_nulls_last=false&sort_hide_null=false&sort_null_only=false&min_receipt_date=$sda&api_key=DEMO_KEY"
         id: current-time
 
       - name: Use current time
@@ -39,6 +40,6 @@ jobs:
       - name: Fetch data
         uses: githubocto/flat@v3
         with:
-          http_url: "https://api.open.fec.gov/v1/filings/?per_page=100&sort=-receipt_date&sort_nulls_last=false&sort_hide_null=false&page=1&sort_null_only=false&min_receipt_date=${{ steps.current-time.outputs.DATE }}&api_key=DEMO_KEY"
+          http_url: "${{ steps.current-time.outputs.URLPATH }}"
           downloaded_filename: data.json
-          postprocess: postprocess.js
+          postprocess: postprocess.ts
